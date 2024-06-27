@@ -1,5 +1,6 @@
 import csv
 import re
+import pandas as pd
 
 def extract_first_number(field):
     # Use regular expression to extract the first number from the field
@@ -28,3 +29,17 @@ with open('cleaned_player_stats.csv', 'w', newline='', encoding='utf-8') as clea
 
 
             cleaned_writer.writerow(new_line)
+
+
+player_stats = pd.read_csv('cleaned_player_stats.csv', skipinitialspace=True)
+player_stats.columns = player_stats.columns.str.strip()
+try:
+    player_stats.drop('drop3', inplace=True, axis=1)
+    player_stats.drop('drop2', inplace=True, axis=1)
+    player_stats.drop('drop1', inplace=True, axis=1)
+    player_stats.drop('drop', inplace=True, axis=1)
+except KeyError:
+    pass
+print(player_stats)
+player_stats.to_csv('cleaned_player_stats.csv', index_label=False)
+
