@@ -8,8 +8,8 @@ from bs4 import BeautifulSoup
 import time
 import csv
 
-# Initialize the WebDriver
 driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+
 
 def scrape_match_stats(match_url):
     print(f"Accessing URL: {match_url}")
@@ -41,7 +41,7 @@ def scrape_match_stats(match_url):
         if team_stats_tables and len(team_stats_tables) >= 2:
             for table in team_stats_tables:
                 rows = table.find_all('tr')
-                for row in rows[1:]:  # Skip the header row
+                for i, row in enumerate(rows[1:]):
                     cols = row.find_all('td')
                     player_data = [col.get_text(separator="\n").strip() for col in cols]
                     match_stats.append(player_data)
@@ -55,15 +55,22 @@ def scrape_match_stats(match_url):
         score_list = [score.get_text().strip() for score in scores]
         print("Scores found and parsed.")
 
+        for i in range(0,9):
+            match_stats.remove(match_stats[10])
         return match_stats, score_list
 
     except Exception as e:
         print(f"An error occurred: {e}")
         return [], []
 
+
 # Example match URLs
-all_matches = ["https://www.vlr.gg/353178/sentinels-vs-nrg-esports-champions-tour-2024-americas-stage-2-w1","https://www.vlr.gg/353180/loud-vs-evil-geniuses-champions-tour-2024-americas-stage-2-w1"]
-#Adjust headers as needed
+all_matches = [
+    "https://www.vlr.gg/353178/sentinels-vs-nrg-esports-champions-tour-2024-americas-stage-2-w1",
+    "https://www.vlr.gg/353180/loud-vs-evil-geniuses-champions-tour-2024-americas-stage-2-w1"
+]
+
+# Adjust headers as needed
 with open("player_stats.csv", "a", newline='', encoding='utf-8') as csvfile:
     writer = csv.writer(csvfile)
     writer.writerow(
@@ -82,11 +89,12 @@ with open("player_stats.csv", "a", newline='', encoding='utf-8') as csvfile:
             "+/- (Map 1)", "+/- (Map 2)", "+/- (Map 3)",
             "FK/FD (Map 1)", "FK/FD (Map 2)", "FK/FD (Map 3)"
         ])  # Adjust headers as needed
+
 with open("match_scores.csv", "a", newline='', encoding='utf-8') as csvfile2:
     writer2 = csv.writer(csvfile2)
     writer2.writerow(["Team Score"])
 
-#loop all matches
+# Loop all matches
 for url in all_matches:
     match_url = url
     match_stats, scores = scrape_match_stats(match_url)
@@ -96,11 +104,6 @@ for url in all_matches:
     for stats in match_stats:
         # Clean each element by removing unnecessary characters
         cleaned_stats.append([stat.replace("\n", " ").strip() for stat in stats])
-
-    #removing the average scores (all maps average)
-
-    #for i in range(0,10):
-        #cleaned_stats.remove(cleaned_stats[0])
 
     # Write the cleaned player stats to a CSV file
     with open("player_stats.csv", "a", newline='', encoding='utf-8') as csvfile:
