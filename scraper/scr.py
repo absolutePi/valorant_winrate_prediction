@@ -44,6 +44,10 @@ def scrape_match_stats(match_url):
                 for i, row in enumerate(rows[1:]):
                     cols = row.find_all('td')
                     player_data = [col.get_text(separator="\n").strip() for col in cols]
+                    #making the player data readable
+                    player_data.append(player_data[0][9:])
+                    player_data[len(player_data)-1] = player_data[len(player_data)-1].strip("\t")
+                    player_data[0] = player_data[0][0:10].strip("\t")
                     match_stats.append(player_data)
 
             print("Player stats tables found and parsed.")
@@ -55,7 +59,7 @@ def scrape_match_stats(match_url):
         score_list = [score.get_text().strip() for score in scores]
         print("Scores found and parsed.")
 
-        for i in range(0,9):
+        for i in range(0,10):
             match_stats.remove(match_stats[10])
         return match_stats, score_list
 
@@ -75,7 +79,7 @@ with open("player_stats.csv", "a", newline='', encoding='utf-8') as csvfile:
     writer = csv.writer(csvfile)
     writer.writerow(
         [
-            "Player Name", "Team",
+            "Player Name",
             "ACS (Map 1)", "ACS (Map 2)", "ACS (Map 3)",
             "K (Map 1)", "K (Map 2)", "K (Map 3)",
             "D (Map 1)", "D (Map 2)", "D (Map 3)",
@@ -87,7 +91,7 @@ with open("player_stats.csv", "a", newline='', encoding='utf-8') as csvfile:
             "FK (Map 1)", "FK (Map 2)", "FK (Map 3)",
             "FD (Map 1)", "FD (Map 2)", "FD (Map 3)",
             "+/- (Map 1)", "+/- (Map 2)", "+/- (Map 3)",
-            "FK/FD (Map 1)", "FK/FD (Map 2)", "FK/FD (Map 3)"
+            "FK/FD (Map 1)", "FK/FD (Map 2)", "FK/FD (Map 3)", "Team"
         ])  # Adjust headers as needed
 
 with open("match_scores.csv", "a", newline='', encoding='utf-8') as csvfile2:
@@ -124,6 +128,5 @@ for url in all_matches:
     print("\nScores:")
     for score in scores:
         print(score)
-
 # Clean up
 driver.quit()
