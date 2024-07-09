@@ -46,8 +46,8 @@ def scrape_match_stats(match_url):
                     player_data = [col.get_text(separator="\n").strip() for col in cols]
                     #making the player data readable
                     player_data.append(player_data[0][9:])
-                    player_data[len(player_data)-1] = player_data[len(player_data)-1].strip("\t")
                     player_data[0] = player_data[0][0:10].strip("\t")
+                    player_data[len(player_data)-1] = player_data[len(player_data)-1].strip("\t")
                     match_stats.append(player_data)
 
             print("Player stats tables found and parsed.")
@@ -71,7 +71,24 @@ def scrape_match_stats(match_url):
 # Example match URLs
 all_matches = [
     "https://www.vlr.gg/353178/sentinels-vs-nrg-esports-champions-tour-2024-americas-stage-2-w1",
-    "https://www.vlr.gg/353180/loud-vs-evil-geniuses-champions-tour-2024-americas-stage-2-w1"
+    "https://www.vlr.gg/353180/loud-vs-evil-geniuses-champions-tour-2024-americas-stage-2-w1",
+    "https://www.vlr.gg/353193/loud-vs-leviat-n-champions-tour-2024-americas-stage-2-w3",
+    "https://www.vlr.gg/353192/g2-esports-vs-kr-esports-champions-tour-2024-americas-stage-2-w3",
+    "https://www.vlr.gg/353190/mibr-vs-100-thieves-champions-tour-2024-americas-stage-2-w2",
+    "https://www.vlr.gg/353171/team-heretics-vs-gentle-mates-champions-tour-2024-emea-stage-2-w3",
+    "https://www.vlr.gg/353170/bbl-esports-vs-team-vitality-champions-tour-2024-emea-stage-2-w3",
+    "https://www.vlr.gg/353168/koi-vs-natus-vincere-champions-tour-2024-emea-stage-2-w3",
+    "https://www.vlr.gg/353169/team-liquid-vs-karmine-corp-champions-tour-2024-emea-stage-2-w3",
+    "https://www.vlr.gg/314363/paper-rex-vs-zeta-division-champions-tour-2024-pacific-stage-2-w4",
+    "https://www.vlr.gg/314362/gen-g-vs-team-secret-champions-tour-2024-pacific-stage-2-w4",
+    "https://www.vlr.gg/314362/gen-g-vs-team-secret-champions-tour-2024-pacific-stage-2-w4",
+    "https://www.vlr.gg/314361/zeta-division-vs-talon-esports-champions-tour-2024-pacific-stage-2-w4",
+    "https://www.vlr.gg/314360/drx-vs-detonation-focusme-champions-tour-2024-pacific-stage-2-w4",
+    "https://www.vlr.gg/314341/team-secret-vs-bleed-champions-tour-2024-pacific-stage-2-w1",
+    "https://www.vlr.gg/314342/t1-vs-gen-g-champions-tour-2024-pacific-stage-2-w1",
+    "https://www.vlr.gg/314345/team-secret-vs-global-esports-champions-tour-2024-pacific-stage-2-w1",
+    "https://www.vlr.gg/314346/talon-esports-vs-rex-regum-qeon-champions-tour-2024-pacific-stage-2-w2",
+    "https://www.vlr.gg/314347/paper-rex-vs-drx-champions-tour-2024-pacific-stage-2-w2"
 ]
 
 # Adjust headers as needed
@@ -128,5 +145,6 @@ for url in all_matches:
     print("\nScores:")
     for score in scores:
         print(score)
+
 # Clean up
 driver.quit()
