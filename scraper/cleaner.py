@@ -77,10 +77,9 @@ with open("cleaned_match_scores.csv", 'w') as cleaned_stats:
         for i in csvreader:
             match_scores.append(i)
 
-import csv
 
+#combined player stats
 match_scores = []
-results = []
 with open("cleaned_match_scores.csv", 'w') as cleaned_stats:
     csvwriter = csv.writer(cleaned_stats)
     csvwriter.writerow(["Win/Loss"])
@@ -104,7 +103,7 @@ with open("cleaned_match_scores.csv", 'w') as cleaned_stats:
             for j in range(0,5):
                 csvwriter.writerow(team2)
 
-results2 = []
+results = []
 with open("combined_stats.csv", 'w') as combined:
     csvwriter = csv.writer(combined)
     csvwriter.writerow(['name', 'rating', 'acs', 'k', 'd', 'a', 'k-d', 'kast%', 'adr', 'hs%',
@@ -116,14 +115,15 @@ with open("combined_stats.csv", 'w') as combined:
             csvreader3 = csv.reader(csvfile3)
             next(csvreader3)
             for i in csvreader3:
-                results2.append(i)
+                results.append(i)
             for idx, line in enumerate(csvreader2):
                 try:
-                    result_to_be_added = (str(results2[idx]).strip("''[]"))
+                    result_to_be_added = (str(results[idx]).strip("''[]"))
                     line.append(result_to_be_added)
                     csvwriter.writerow(line)
                 except IndexError:
                     print("Mismatch between number of stats recorded")
+
 #average stats for teams
 with open("combined_team_stats.csv", "w") as csvfile2:
     csvwriter = csv.writer(csvfile2)
@@ -146,4 +146,6 @@ with open("combined_team_stats.csv", "w") as csvfile2:
                             ind_stats[idx + 2][idx1]) + float(ind_stats[idx + 3][idx1]) + float(
                             ind_stats[idx + 4][idx1])) / 5
                         new_line.append(new_data)
+                    
                 csvwriter.writerow(new_line)
+
