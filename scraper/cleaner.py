@@ -128,7 +128,7 @@ with open("combined_stats.csv", 'w') as combined:
 with open("combined_team_stats.csv", "w") as csvfile2:
     csvwriter = csv.writer(csvfile2)
     csvwriter.writerow(
-        ["org", "result", "avg_rating", "avg_acs", "avg_kast%", "avg_adr", "avg_hs%"])
+        ["org", "result", "avg_rating", "avg_acs", "k", "d", "a", "k-d", "avg_kast%", "avg_adr", "avg_hs%", "fk", "fd", "fk-fd"])
     with open("combined_stats.csv", 'r') as csvfile:
         csvreader = csv.reader(csvfile)
         next(csvreader)
@@ -146,6 +146,10 @@ with open("combined_team_stats.csv", "w") as csvfile2:
                             ind_stats[idx + 2][idx1]) + float(ind_stats[idx + 3][idx1]) + float(
                             ind_stats[idx + 4][idx1])) / 5
                         new_line.append(new_data)
-                    
+                    if idx1 == 3 or idx1 == 4 or idx1 == 5 or idx1 == 6 or idx1 == 10 or idx1 == 11 or idx1 == 12:
+                        new_data  = (float(ind_stats[idx][idx1]) + float(ind_stats[idx + 1][idx1]) + float(
+                            ind_stats[idx + 2][idx1]) + float(ind_stats[idx + 3][idx1]) + float(
+                            ind_stats[idx + 4][idx1]))
+                        new_line.append(new_data)
                 csvwriter.writerow(new_line)
 
